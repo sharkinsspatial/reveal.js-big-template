@@ -10,20 +10,33 @@ ASDI's organic, decentralized approach has worked great in several aspects.
 - As intended, it has truly democratized access to planetary scale data.<!-- .element: class="fragment" -->
 
 ---
-But the same aspects that make it successful also reduce its effectiveness
+But the same aspects that make it successful also reduce its effectiveness and adoption by users
 
 - Limited centralized oversight leads to a lack of focus on important thematic areas.<!-- .element: class="fragment" -->
 - Lack of standardization reduces data interoperability for data users.<!-- .element: class="fragment" -->
 - The lack of a centralized indexing and search inteface makes data discovery and fusion impossible for data users.<!-- .element: class="fragment" -->
-
 ---
-### How can we improve the ASDI experience for the data community?
+Let's look at a concrete example.  I'm a user who needs needs SAR data to do deforestation detection in a tropical region that is obscured by clouds.
+---
+![deforestation](https://digital-geography.com/wp-content/uploads/2016/11/deforest-comparison.png)
+---
+Today I'd need to first search through the Registry of Open Data on AWS and then (if there was documentation) understand the underlying file structure the dataset uses.
+---
+![Sentinel1-data](assets/Sentinel-1_structure.png)
+---
+Then finally, I can manually comb through and assemble the list of files for my area and time of interest.
+---
+What if I want to correlate some of my findings with other optical data?
+
+I'd need to repeat this investigation process for every dataset I work with.
+---
+### How can we improve this ASDI experience for the user community?
 ---
 ### Adopt a common metadata standard.
 ---
 ![STAC](https://raw.githubusercontent.com/radiantearth/stac-site/master/images/logo/stac-030-long.png)
 ---
-STAC is a community driven standard for metadata and metadata APIs.
+STAC is a community driven standard for spatiotemporal metadata and APIs.
 
 Rather than originitating with a standards body like OGC, STAC evolved from industry and community members who had immediate, common problems to solve.
 ---
@@ -35,7 +48,7 @@ Rather than originitating with a standards body like OGC, STAC evolved from indu
 ---
 Development Seed has been involved with STAC since its inception.
 
-We've built both the main reference implementations of the API standard as well as suite of tooling for working with the metadata specification.
+We've built both the main reference implementations of the API standard as well as a suite of tooling for working with the metadata specification.
 ---
 The bulk of our projects are built on the STAC specification and a common set of open source libraries we build and maintain.
 ---
@@ -61,9 +74,9 @@ It serves 3 main purposes
 - Provide a standard API that allows dynamically visualizing data files for analysis. 
 ---
 The eoAPI suite is built from 3 libraries
-- pgSTAC: An optimized Postgres schema to index and search large scale STAC collection
-- stac-fastapi: An OGC Features API compliant FastAPI application for metadata search
-- titiler-pgstac: a TiTiler extension for pgSTAC for large scale dynamic mosaic for STAC data
+- pgSTAC: An optimized Postgres schema to index and search large scale STAC collections
+- stac-fastapi: An STAC API spec compliant FastAPI application for metadata search
+- titiler-pgstac: a TiTiler extension for pgSTAC for large scale dynamic rendering of STAC data
 ---
 ### How have we realized this vision for ASDI?
 ---
@@ -71,7 +84,7 @@ The eoAPI suite is built from 3 libraries
 ---
 ### [cdk-pgstac](https://github.com/developmentseed/cdk-pgstac)
 
-To provide an easy entrypoint and capture best practices we built a reusable CDK construct to package all of the API infrastructure into a single deployment.
+To provide an easy developer entrypoint and capture best practices we built a reusable CDK construct to package all of the eoAPI infrastructure into a single AWS deployment.
 
 ---
 Now we have a central API where data providers can publish standard metadata for all of the datasets they manage.
@@ -88,12 +101,29 @@ The community has been capturing product format specific information and transfo
 ### [ASDI Pipelines](https://github.com/developmentseed/aws-asdi-pipelines)
 - Data providers and the community build a stactools package for their dataset (in many cases these already exist from our work on Planetary Computer).
 - Data providers use common AWS configurations on the buckets they manage (SNS Topics and Inventories).
-- Using these, data providers can create pipeline which will automatically deploy infrastructure that monitors the SNS topic (and parses the inventory) to create cloud-native formats and metadata and ingest them into the API. 
+- Using these, data providers can create pipelines which will automatically deploy infrastructure that monitors the SNS topic (and parses the inventory) to create cloud-native formats and metadata and ingest them into the API. 
 ---
 <!-- .slide: data-background-color="white" -->
-![ASDI Pipelines](https://github.com/developmentseed/aws-asdi-pipelines/blob/main/docs/aws_asdi_cog.png)
+![ASDI Pipelines](assets/asdi_pipelines_small.png)
 ---
+As part of this initial investigation work we 
+- Built and updated stactools packages for several ASDI datasets.
+- Deployed pipelines in our test account which are continously running with new streaming data.
+---
+There is a strong distinction between 2 types of spatiotemporal data that are in ASDI.
 
+### Sparse
+
+### Gridded N-Dimensional
+---
+### Sparse
+<!-- .slide: data-background-color="white" -->
+![STAC Bytes](assets/STAC_bytes.png)
+---
+### Gridded N-Dimensional
+<!-- .slide: data-background-color="white" -->
+![Kerchunk Bytes](assets/Kerchunk_bytes.png)
+---
 NOTE: Could be relative path to images as well...
 
 
