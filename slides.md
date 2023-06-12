@@ -16,11 +16,15 @@ But the same aspects that make it successful also reduce its effectiveness and a
 - Lack of standardization reduces data interoperability for data users.<!-- .element: class="fragment" -->
 - The lack of a centralized indexing and search inteface makes data discovery and fusion impossible for data users.<!-- .element: class="fragment" -->
 ---
-Let's look at a concrete example.  I'm a user who needs needs SAR data to do deforestation detection in a tropical region that is obscured by clouds.
+### Let's look at a concrete example.
+
+I'm a user who needs needs SAR data to do deforestation detection in a tropical region that is obscured by clouds.
 ---
 ![deforestation](https://digital-geography.com/wp-content/uploads/2016/11/deforest-comparison.png)
 ---
-Today I'd need to first search through the Registry of Open Data on AWS and then (if there was documentation) understand the underlying file structure the dataset uses.
+Today I'd need to first search through the Registry of Open Data on AWS.
+
+Then (if there was documentation) understand the underlying file structure the dataset uses.
 ---
 ![Sentinel1-data](assets/Sentinel-1_structure.png)
 ---
@@ -124,124 +128,40 @@ There is a strong distinction between 2 types of spatiotemporal data that are in
 <!-- .slide: data-background-color="white" -->
 ![Kerchunk Bytes](assets/Kerchunk_bytes.png)
 ---
-NOTE: Could be relative path to images as well...
+Users interact with these different types of data in different ways.
 
-
-A quick example set of slides
-
----
-
-Checkout `slides.md` to see how they were written.
+Using different tools.
 
 ---
-
-## Navigate vertically
-
-Grouping tabs vertically is a good way to discuss a single idea
-
-_hint: press <kbd>↓</kdb>_<!-- .element: class="small" -->
-
---
-
-This slide appears below the first slide
-
-_hint: press <kbd>→</kdb>_<!-- .element: class="small" -->
-
+<!-- .slide: data-background-color="white" -->
+Xarray being the most popular.
+![Xarray seasonal](https://docs.xarray.dev/en/stable/_images/examples_monthly-means_9_1.png)
 ---
-
-## Navigate horizontally
-
-This slide appears to the right of the first slide
-
+But a million NetCDF files stored in a bucket don't provide a friendly data access interface.
 ---
+We need a centralized index of all the raw data in these netCDF files. 
 
-Go Big<!-- .element: class="r-fit-text" -->
+So that xarray can easily read only the bytes of interest.
 
+To create this index we use Pangeo Forge
 ---
-
-Press <kbd>ESC</kbd> to see overview
-
---
-
-Press <kbd>S</kbd> to open speaker view.
-
-You can even include notes that only the presenter can see!
-
-<!-- Presenter notes are specified by anything written below a line that starts with "NOTE: " -->
-
-NOTE: This is only visible to the presenter.
-
-Drag this tab to a different window or screenshare the other tab. When you change slides on this presenter-view tab, the other tab with audience focused tabs will change as well.
-
---
-
-Press <kbd>?</kbd> to see other keyboard shortcuts.
-
+![pangeo-forge](https://pangeo-forge.org/pangeo-forge-logo-white.png)
 ---
+Pangeo Forge is a community-driven platform for generating analysis-ready, cloud-optimized ARCO data stores from legacy data provider archives.
 
-## Fragment transitions
-
-Fade in <!-- .element: class="fragment" -->
-
-Fade out <!-- .element: class="fragment fade-out" -->
-
-Highlight red <!-- .element: class="fragment highlight-red" -->
-
-Fade in, then out <!-- .element: class="fragment fade-in-then-out" -->
-
-Slide up while fading in <!-- .element: class="fragment fade-up" -->
-
-NOTE: See more about fragment transitions here: https://revealjs.com/fragments/
-
+Using its Kerchunk functionality we can generate a central index for millions of NetCDF files making them easily accessible in modern applications without any storage duplication.
 ---
-
-<!-- .slide: data-auto-animate -->
-
-## Code
-
-```js[|4|4,8-9|15,19-20]
-import React, { useState } from "react";
-
-function Example() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-    </div>
-  );
-}
-
-function SecondExample() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-    </div>
-  );
-}
-```
-
+Though the technology is excellent, the most valuable part of Pangeo Forge is the large community with domain specific knowledge who can build and contribute recipes to make ASDI datasets more usable and accessible.
 ---
+Through investigation and feedback from community members on Pangeo Forge Github issues, we've already identifed data quality issues with 4 datasets managed by NOAA Open Dataset Dissemnitation (NODD) and communicated the issues back to them.
+---
+## So have cloud-optimized data and metadata.  What do we do with it?
+---
+<!-- .slide: data-background-color="white" -->
+We built out a repository called [asdi-examples](https://github.com/developmentseed/asdi-examples/tree/main) with Jupyter notebooks targeting SageMaker that demonstrate STAC API and COG usage.
+![Sentinel1_notebook](assets/Sentinel1_notebook.png)
+---
+### So we've built out the technology foundation to make ASDI data more valuable for the user community.
 
-
-<!-- .slide: data-background-image="https://placekitten.com/1000/1000" -->
-
-## Backgrounds
-
-Images as backgrounds
-
-NOTE: Could be relative path to images as well...
-
---
-
-<!-- .slide: data-background-iframe="https://semver.org" data-background-interactive -->
-
-## Backgrounds
-
-Websites as backgrounds
-
-NOTE: This doesn't currently work with any page that prevents itself from being included in iframes (e.g. GitHub)
+## What's next???
+---
